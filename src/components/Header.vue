@@ -10,6 +10,24 @@
 	      <li class="nav-item active">
 	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 	      </li>
+
+        <li class="nav-item active">
+          <router-link class="nav-link" to="/register">
+              <a>Register Identity <span class="sr-only">(current)</span></a>
+          </router-link>
+        </li>
+
+        <li class="nav-item active">
+          <router-link class="nav-link" to="/enroll">
+              <a>Enroll Certificate <span class="sr-only">(current)</span></a>
+          </router-link>
+        </li>
+
+        <li class="nav-item active">
+          <router-link class="nav-link" to="/revoke">
+              <a>Revoke certificate <span class="sr-only">(current)</span></a>
+          </router-link>
+        </li>
 	    </ul>
 	    <form class="form-inline my-4 my-lg-0">
 	    	<label class="mr-sm-2">CA Server</label>
