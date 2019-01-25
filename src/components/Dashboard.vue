@@ -9,17 +9,18 @@
                     <legend class="w-auto">Enroll Admin identity</legend>
 
                     <form>
+
                         <div class="form-group">
                             <label>ID Name</label>
-                            <input type="email" class="form-control" placeholder="Enter name of the identity">
+                            <input type="text" class="form-control" v-model="name" placeholder="Enter name of the identity">
                         </div>
 
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" placeholder="Password">
+                            <input type="password" class="form-control" v-model="password" placeholder="Password">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Enroll Admin</button>
+                        <button @click="enrollAdmin" class="btn btn-primary">Enroll Admin</button>
                     </form>
                 </fieldset>
             </div>
@@ -29,11 +30,30 @@
 
 <script>
     import Header from './Header';
+    import axios from 'axios';
 
     export default {
         name: 'Dashboard',
         data() {
-            return {}
+            return {
+                name : '',
+                password : ''
+            }
+        },
+        methods: {
+            enrollAdmin() {
+                axios.post('http://localhost:3000/enroll-admin',{
+                    name : this.name,
+                    password : this.password,
+                    ca_server : 'http://localhost:7054'
+                })
+                .then((result) => {
+                    console.log(result);
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
         },
         components: {
             appHeader: Header

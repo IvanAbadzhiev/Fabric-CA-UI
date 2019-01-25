@@ -10,6 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "fabric-ca-client": "^1.4.0",
     "fabric-client": "^1.4.0",
     "vue": "^2.5.2",
