@@ -29,8 +29,8 @@ app.post('/enroll-admin',(req, res) => {
 	Fabric_Client.newDefaultKeyValueStore({ path: store_path })
 	.then((state_store) => {
 		fabric_client.setStateStore(state_store);
-	    let crypto_suite = Fabric_Client.newCryptoSuite();
 	    
+	    let crypto_suite = Fabric_Client.newCryptoSuite();
 	    let crypto_store = Fabric_Client.newCryptoKeyStore({path: store_path});
 	    
 	    crypto_suite.setCryptoKeyStore(crypto_store);
@@ -47,26 +47,16 @@ app.post('/enroll-admin',(req, res) => {
 	    return fabric_client.getUserContext(name, true);
 	})
 	.then((user_from_store) => {
-
 		if (user_from_store && user_from_store.isEnrolled()) {
-			console.log('The use already exist');
-	        admin_user = user_from_store;
-	        res.end('The use already exist');
+	        res.send(JSON.stringify({ success: false, message : 'The user already exist' }));
 	        return null;
-	    
 	    } else {
-	    	console.log('the user is not enrolled')
 	        // need to enroll it with CA server
 	        return fabric_ca_client.enroll({
 	          enrollmentID: name,
 	          enrollmentSecret: password
 	        }).then((enrollment) => {
-	          
-
-	          console.log('Successfully enrolled admin user "admin"');
-	          console.log(enrollment);
-	          
-	          res.send('The certificate is enrolled');
+	          res.send(JSON.stringify({ success : false, message : 'The certificate is enrolled', data: enrollment }));
 	          
 	          //TODO: save the certificate as file
 	          return fabric_client.createUser({
@@ -81,14 +71,20 @@ app.post('/enroll-admin',(req, res) => {
 	          return fabric_client.setUserContext(admin_user);
 	        
 	        }).catch((err) => {
-	          res.send('Failed to enroll and persist admin. Error: ' + err.stack ? err.stack : err);
-	          console.error('Failed to enroll and persist admin. Error: ' + err.stack ? err.stack : err);
+	          res.send(JSON.stringify({ success : false, message: 'Failed to enroll and persist admin.' }));
 	          throw new Error('Failed to enroll admin');
 	        });
 	    }
-	})		
+	});
 });
 
-app.listen(3000,function(){
+app.post('/register-identity', (req, res) => {
+	let name = req.body.name;
+	let affiliation = req.body.affiliation;
+	let password = req.body.password;
+	
+});
+
+app.listen(3000,() => {
   console.log("Started on PORT 3000");
-})
+});
